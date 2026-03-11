@@ -66,7 +66,7 @@ export class CompiladorNativo {
             }
 
             // Compilação das bibliotecas nativas
-            const bibliotecasDir = path.join(__dirname, '../fontes/bibliotecas');
+            const bibliotecasDir = path.join(__dirname, 'bibliotecas');
             const arquivosC = obterArquivosC(bibliotecasDir);
             const arquivosObj: string[] = [];
 

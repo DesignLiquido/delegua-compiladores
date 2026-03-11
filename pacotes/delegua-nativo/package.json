@@ -14,7 +14,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "empacotar": "yarn rimraf ./dist && yarn tsc && yarn copyfiles -V ./package.json ./dist",
+    "empacotar": "yarn rimraf ./dist && yarn tsc && yarn copyfiles -V ./package.json ./dist && yarn copyfiles -u 1 \"fontes/bibliotecas/**\" ./dist",
     "testes-unitarios": "yarn jest --coverage",
     "executar": "yarn ts-node fontes/ilc.ts",
     "prepublishOnly": "yarn empacotar"
