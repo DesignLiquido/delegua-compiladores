@@ -1,0 +1,11 @@
+{
+  "name": "delegua-compiladores",
+  "private": true,
+  "workspaces": [
+    "pacotes/*"
+  ],
+  "scripts": {
+    "empacotar": "yarn workspaces run empacotar",
+    "testes-unitarios": "yarn workspaces run testes-unitarios"
+  }
+}
