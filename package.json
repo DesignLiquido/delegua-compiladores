@@ -25,5 +25,6 @@
     "plugins": {
       "@release-it-plugins/workspaces": true
     }
-  }
+  },
+  "version": "0.1.0"
 }
