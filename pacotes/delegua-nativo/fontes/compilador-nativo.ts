@@ -40,7 +40,8 @@ export class CompiladorNativo {
 
         const { arquivoEntrada, nomeSaida, otimizacao, manterTemporarios } = opcoes;
         const nomeBase = path.basename(arquivoEntrada, path.extname(arquivoEntrada));
-        const nomeBinario = nomeSaida || nomeBase;
+        const sufixoBinario = process.platform === 'win32' ? '.exe' : '';
+        const nomeBinario = (nomeSaida || nomeBase) + sufixoBinario;
         const diretorioSaida = path.dirname(arquivoEntrada);
         const caminhoBinario = path.join(diretorioSaida, nomeBinario);
         const arquivosTemporarios: string[] = [];
