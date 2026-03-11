@@ -1,6 +1,6 @@
-﻿# delegua-compilador
+﻿# Compiladores de Delégua
 
-Monorepo com o compilador completo da linguagem de programação Delégua utilizando a infraestrutura LLVM, com o objetivo de gerar código nativo eficiente e otimizado para diversas plataformas.
+Monorepositório com todos os compiladores completos da linguagem de programação Delégua, com o objetivo de gerar código nativo eficiente e otimizado para diversas plataformas.
 
 ## Pacotes
 

@@ -2,7 +2,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-import { CompiladorNativo } from './compilador-nativo';
+import { CompiladorX64 } from './compilador-x64';
 import { verificarToolchain } from './verificador-toolchain';
 
 const CORES = {
@@ -26,20 +26,16 @@ const LOGO = `
 ║     ██████╔╝███████╗███████╗███████╗╚██████╔╝╚██████╔╝██║  ██║   ║
 ║     ╚═════╝ ╚══════╝╚══════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝   ║
 ║                                                                  ║
-║                   ███╗   ██╗ █████╗ ████████╗██╗██╗   ██╗ ██████╗║
-║                   ████╗  ██║██╔══██╗╚══██╔══╝██║██║   ██║██╔═══██╗
-║                   ██╔██╗ ██║███████║   ██║   ██║██║   ██║██║   ██║
-║                   ██║╚██╗██║██╔══██║   ██║   ██║╚██╗ ██╔╝██║   ██║
-║                   ██║ ╚████║██║  ██║   ██║   ██║ ╚████╔╝ ╚██████╔╝
-║                   ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═══╝   ╚═════╝║
+║              ██╗  ██╗ ██████╗ ██╗  ██╗                           ║
+║              ╚██╗██╔╝██╔════╝ ██║  ██║                           ║
+║               ╚███╔╝ ███████╗ ███████║                           ║
+║               ██╔██╗ ██╔═══██╗╚════██║                           ║
+║              ██╔╝ ██╗╚██████╔╝      ██║                          ║
+║              ╚═╝  ╚═╝ ╚═════╝       ╚═╝                          ║
 ║                                                                  ║
-║              Compilador Delégua → LLVM → Nativo                  ║
+║              Compilador Delégua → NASM → Nativo x64              ║
 ╚══════════════════════════════════════════════════════════════════╝
 `;
-
-function log(mensagem: string, cor: string = CORES.reset) {
-    console.log(`${cor}${mensagem}${CORES.reset}`);
-}
 
 function logEtapa(etapa: string) {
     console.log(`\n${CORES.ciano}${CORES.negrito}▶ ${etapa}${CORES.reset}`);
@@ -62,23 +58,20 @@ function logErro(mensagem: string) {
 }
 
 function exibirAjuda() {
-    log('Uso:', CORES.amarelo);
-    log('  npx @designliquido/delegua-nativo <arquivo.delegua>', CORES.reset);
+    console.log(`${CORES.amarelo}Uso:${CORES.reset}`);
+    console.log(`  npx delegua-x64 <arquivo.delegua>`);
     console.log('');
-    log('Opções:', CORES.amarelo);
-    log('  -o <nome>              Nome do binário de saída', CORES.reset);
-    log('  --otimizar <nível>     Nível de otimização: O0, O1, O2, O3, Os, Oz', CORES.reset);
-    log('  --manter-temporarios   Não remove arquivos .ll e .o após compilar', CORES.reset);
-    console.log('');
-    log('Variáveis de ambiente:', CORES.amarelo);
-    log('  DELEGUA_DEBUG=true     Exibe o LLVM IR gerado no console', CORES.reset);
+    console.log(`${CORES.amarelo}Opções:${CORES.reset}`);
+    console.log(`  -o <nome>                  Nome do binário de saída`);
+    console.log(`  --alvo <linux|windows>     Plataforma alvo (padrão: detectado pelo SO)`);
+    console.log(`  --manter-temporarios       Não remove arquivos .asm e .o após compilar`);
     console.log('');
 }
 
-function verificarEReportarToolchain(): boolean {
+function verificarEReportarToolchain(alvo?: 'linux' | 'windows'): boolean {
     logEtapa('Verificando ferramentas do toolchain');
 
-    const resultado = verificarToolchain();
+    const resultado = verificarToolchain(alvo);
 
     for (const ferramenta of resultado.ferramentasDisponiveis) {
         logSucesso(`${ferramenta.nome} encontrado`);
@@ -97,7 +90,6 @@ function verificarEReportarToolchain(): boolean {
     if (!resultado.sucesso) {
         console.log('');
         logErro('Compilação cancelada. Instale as ferramentas acima e tente novamente.');
-        logErro('Consulte o README para instruções de instalação.');
     }
 
     return resultado.sucesso;
@@ -115,19 +107,19 @@ async function principal() {
 
     let arquivoEntrada = '';
     let nomeSaida = '';
-    let otimizacao: 'O0' | 'O1' | 'O2' | 'O3' | 'Os' | 'Oz' | undefined;
+    let alvo: 'linux' | 'windows' | undefined;
     let manterTemporarios = false;
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '-o' && args[i + 1]) {
             nomeSaida = args[++i];
-        } else if (args[i] === '--otimizar' && args[i + 1]) {
-            const nivel = args[++i] as typeof otimizacao;
-            if (!['O0', 'O1', 'O2', 'O3', 'Os', 'Oz'].includes(nivel)) {
-                logErro(`Nível de otimização inválido: "${nivel}". Use O0, O1, O2, O3, Os ou Oz.`);
+        } else if (args[i] === '--alvo' && args[i + 1]) {
+            const valor = args[++i];
+            if (valor !== 'linux' && valor !== 'windows') {
+                logErro(`Alvo inválido: "${valor}". Use linux ou windows.`);
                 process.exit(1);
             }
-            otimizacao = nivel;
+            alvo = valor;
         } else if (args[i] === '--manter-temporarios') {
             manterTemporarios = true;
         } else if (!arquivoEntrada) {
@@ -146,19 +138,19 @@ async function principal() {
         process.exit(1);
     }
 
-    if (!verificarEReportarToolchain()) {
+    if (!verificarEReportarToolchain(alvo)) {
         process.exit(1);
     }
 
     logEtapa('Iniciando compilação');
     logInfo(`Arquivo: ${arquivoEntrada}`);
-    if (otimizacao) logInfo(`Otimização: -${otimizacao}`);
+    if (alvo) logInfo(`Alvo: ${alvo}`);
 
-    const compilador = new CompiladorNativo();
+    const compilador = new CompiladorX64();
     const resultado = await compilador.compilar({
         arquivoEntrada,
         nomeSaida,
-        otimizacao,
+        alvo,
         manterTemporarios,
     });
 
