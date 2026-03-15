@@ -7,7 +7,7 @@ Monorepositório com todos os compiladores completos da linguagem de programaç�
 | Pacote | Descrição |
 |--------|-----------|
 | [`@designliquido/delegua-llvm`](https://github.com/DesignLiquido/delegua-llvm) | Geração de representação intermediária LLVM (IR) a partir de código Delégua |
-| [`@designliquido/delegua-nativo`](pacotes/delegua-nativo) | Compilação completa Delégua → LLVM IR → binário nativo via Clang |
+| [`delegua-nativo`](pacotes/delegua-nativo) | Compilação completa Delégua → LLVM IR → binário nativo via Clang |
 | [`delegua-x64`](pacotes/delegua-x64) | Compilação Delégua → NASM assembly → binário nativo x64, sem LLVM |
 
 ## Pré-requisitos
