@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "fontes"
+  },
+  "exclude": [
+    "coverage",
+    "dist/**/*",
+    "jest.config.ts",
+    "node_modules",
+    "testes"
+  ]
+}
