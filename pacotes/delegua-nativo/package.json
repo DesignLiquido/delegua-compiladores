@@ -1,6 +1,6 @@
 {
   "name": "delegua-nativo",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Compilador completo Delégua para código nativo via LLVM e Clang.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
