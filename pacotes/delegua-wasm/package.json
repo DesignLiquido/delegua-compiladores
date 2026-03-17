@@ -15,7 +15,7 @@
   },
   "scripts": {
     "empacotar": "yarn rimraf ./dist && yarn tsc",
-    "testes-unitarios": "yarn jest --coverage",
+    "testes-unitarios": "yarn jest --coverage --passWithNoTests",
     "executar": "yarn ts-node fontes/ilc.ts",
     "prepublishOnly": "yarn empacotar"
   },
