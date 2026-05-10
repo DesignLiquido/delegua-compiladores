@@ -9,6 +9,9 @@ Monorepositório com todos os compiladores completos da linguagem de programaç�
 | [`@designliquido/delegua-llvm`](https://github.com/DesignLiquido/delegua-llvm) | Geração de representação intermediária LLVM (IR) a partir de código Delégua |
 | [`delegua-nativo`](pacotes/delegua-nativo) | Compilação completa Delégua → LLVM IR → binário nativo via Clang |
 | [`delegua-x64`](pacotes/delegua-x64) | Compilação Delégua → NASM assembly → binário nativo x64, sem LLVM |
+| [`delegua-arm`](pacotes/delegua-arm) | Compilação Delégua para binários ARM via GNU Assembler, sem LLVM |
+| [`delegua-risc-v`](pacotes/delegua-risc-v) | Compilação Delégua para binários RISC-V via GNU Assembler, sem LLVM |
+| [`delegua-wasm`](pacotes/delegua-wasm) | Compilação Delégua para WebAssembly via WAT e wat2wasm, sem LLVM |
 
 ## Pré-requisitos
 
@@ -21,6 +24,9 @@ Os pré-requisitos adicionais variam conforme o pacote utilizado:
 |--------|------------------------|
 | `delegua-nativo` | [LLVM](https://llvm.org/) (`clang`, `clang++`; `opt` e `llc` opcionais) |
 | `delegua-x64` | [NASM](https://nasm.us/) + `ld` (Linux) ou `gcc` (Windows) |
+| `delegua-arm` | GNU Assembler (`as`) + `ld` para ARM |
+| `delegua-risc-v` | GNU Assembler (`as`) + `ld` para RISC-V |
+| `delegua-wasm` | [wat2wasm](https://github.com/WebAssembly/wabt) (`wabt`) |
 
 ## Desenvolvimento
 
@@ -34,10 +40,28 @@ pacotes/
 │       ├── compilador-nativo.ts       Pipeline de compilação
 │       ├── ilc.ts                     Ponto de entrada da CLI
 │       └── index.ts                   Exportações da biblioteca
-└── delegua-x64/            Compilador via NASM, sem LLVM
+├── delegua-x64/            Compilador via NASM para x64, sem LLVM
+│   └── fontes/
+│       ├── verificador-toolchain.ts   Detecção de nasm/ld/gcc no PATH
+│       ├── compilador-x64.ts          Pipeline de compilação
+│       ├── ilc.ts                     Ponto de entrada da CLI
+│       └── index.ts                   Exportações da biblioteca
+├── delegua-arm/            Compilador via GNU Assembler para ARM, sem LLVM
+│   └── fontes/
+│       ├── verificador-toolchain.ts   Detecção de as/ld no PATH
+│       ├── compilador-arm.ts          Pipeline de compilação
+│       ├── ilc.ts                     Ponto de entrada da CLI
+│       └── index.ts                   Exportações da biblioteca
+├── delegua-risc-v/         Compilador via GNU Assembler para RISC-V, sem LLVM
+│   └── fontes/
+│       ├── verificador-toolchain.ts   Detecção de as/ld no PATH
+│       ├── compilador-riscv.ts        Pipeline de compilação
+│       ├── ilc.ts                     Ponto de entrada da CLI
+│       └── index.ts                   Exportações da biblioteca
+└── delegua-wasm/           Compilador para WebAssembly via WAT e wat2wasm
     └── fontes/
-        ├── verificador-toolchain.ts   Detecção de nasm/ld/gcc no PATH
-        ├── compilador-x64.ts          Pipeline de compilação
+        ├── verificador-toolchain.ts   Detecção de wat2wasm no PATH
+        ├── compilador-wasm.ts         Pipeline de compilação
         ├── ilc.ts                     Ponto de entrada da CLI
         └── index.ts                   Exportações da biblioteca
 ```
