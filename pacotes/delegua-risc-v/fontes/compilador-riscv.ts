@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
-import { Lexador, AvaliadorSintatico } from '@designliquido/delegua';
-import { TradutorAssemblyRISCV, PlataformaAlvoRISCV } from '@designliquido/delegua/tradutores';
+import { Lexador, AvaliadorSintatico, TradutorAssemblyRISCV, PlataformaAlvoRISCV } from '@designliquido/delegua';
 
 import { verificarToolchain } from './verificador-toolchain';
 import { OpcaoesCompilacao, ResultadoCompilacao } from './interfaces';
