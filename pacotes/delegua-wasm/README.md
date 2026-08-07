@@ -1,6 +1,6 @@
 # delegua-wasm
 
-Compilador Delégua para WebAssembly, sem LLVM. Utiliza o tradutor WAT da biblioteca `@designliquido/delegua` e o `wat2wasm` (WABT) para gerar binários `.wasm` portáteis.
+Compilador Delégua para WebAssembly, sem LLVM. O tradutor WAT vive neste pacote (não depende de `@designliquido/delegua` para tradução — apenas para o léxico/sintaxe e os tipos da AST) e usa o `wat2wasm` (WABT) para gerar binários `.wasm` portáteis.
 
 ## Pipeline de compilação
 
@@ -118,6 +118,21 @@ if (resultado.sucesso) {
 | `caminhoWasm`  | `string`  | Caminho para o arquivo `.wasm` gerado.               |
 | `caminhoHost`  | `string`  | Caminho para o arquivo `.mjs` host (se solicitado).  |
 | `erro`         | `string`  | Mensagem de erro (se mal-sucedido).                  |
+
+## Estrutura do pacote
+
+```
+fontes/
+├── index.ts                     Exportações da biblioteca
+├── ilc.ts                       Ponto de entrada da CLI
+├── compilador-wasm.ts           Pipeline de compilação
+├── tradutor-webassembly.ts      Tradutor Delégua -> WAT (WebAssembly Text)
+├── verificador-toolchain.ts     Detecção de wat2wasm no PATH
+└── interfaces/
+    ├── index.ts
+    ├── opcoes-compilacao-interface.ts
+    └── resultado-compilacao-interface.ts
+```
 
 ## Desenvolvimento
 
