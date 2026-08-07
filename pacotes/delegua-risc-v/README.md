@@ -1,6 +1,6 @@
 # delegua-riscv
 
-Compilador Delégua para binários RISC-V nativos, sem LLVM. Utiliza o tradutor de assembly RISC-V da biblioteca `@designliquido/delegua` e o toolchain GNU para montagem e linkagem.
+Compilador Delégua para binários RISC-V nativos, sem LLVM. O tradutor de assembly RISC-V vive neste pacote (não depende de `@designliquido/delegua` para tradução — apenas para o léxico/sintaxe e os tipos da AST). Usa o toolchain GNU para montagem e linkagem.
 
 ## Pipeline de compilação
 
@@ -117,6 +117,21 @@ if (resultado.sucesso) {
 | `sucesso`        | `boolean` | `true` se a compilação foi bem-sucedida.        |
 | `caminhoBinario` | `string`  | Caminho para o binário gerado (se bem-sucedido).|
 | `erro`           | `string`  | Mensagem de erro (se mal-sucedido).             |
+
+## Estrutura do pacote
+
+```
+fontes/
+├── index.ts                        Exportações da biblioteca
+├── ilc.ts                          Ponto de entrada da CLI
+├── compilador-riscv.ts             Pipeline de compilação
+├── tradutor-assembly-risc-v.ts     Tradutor Delégua -> assembly RISC-V (GNU as)
+├── verificador-toolchain.ts        Detecção de as/ld no PATH
+└── interfaces/
+    ├── index.ts
+    ├── opcoes-compilacao-interface.ts
+    └── resultado-compilacao-interface.ts
+```
 
 ## Desenvolvimento
 
