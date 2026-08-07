@@ -28,6 +28,6 @@
   },
   "version": "0.2.2",
   "dependencies": {
-    "@designliquido/delegua": "^1.26.1"
+    "@designliquido/delegua": "^1.27.0"
   }
 }
