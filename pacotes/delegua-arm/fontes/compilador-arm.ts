@@ -1,8 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
-import { Lexador, AvaliadorSintatico, TradutorAssemblyARM } from '@designliquido/delegua';
+import { Lexador, AvaliadorSintatico } from '@designliquido/delegua';
 
+import { TradutorAssemblyARM } from './tradutor-assembly-arm';
 import { verificarToolchain } from './verificador-toolchain';
 import { OpcaoesCompilacao, ResultadoCompilacao } from './interfaces';
 
