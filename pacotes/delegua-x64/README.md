@@ -90,12 +90,25 @@ fontes/
 ├── index.ts                   Exportações da biblioteca
 ├── ilc.ts                     Ponto de entrada da CLI
 ├── compilador-x64.ts          Pipeline de compilação
+├── tradutor-assembly-x64.ts   Tradutor Delégua -> NASM x64
 ├── verificador-toolchain.ts   Detecção de nasm/ld/gcc no PATH
-└── interfaces/
-    ├── index.ts
-    ├── opcoes-compilacao-interface.ts
-    └── resultado-compilacao-interface.ts
+├── interfaces/
+│   ├── index.ts
+│   ├── opcoes-compilacao-interface.ts
+│   └── resultado-compilacao-interface.ts
+└── x64/                       Pipeline interno do tradutor: lowering (AST -> IR),
+    ├── tipos-x64.ts           construção/destruição de SSA, alocação de registradores
+    ├── ir.ts                  e geração de código. Ver issue delegua/delegua#1400
+    ├── lowering.ts            para o desenho completo.
+    ├── dominancia.ts
+    ├── ssa.ts
+    ├── liveness.ts
+    ├── alocador-registradores.ts
+    ├── dessa.ts
+    └── codegen.ts
 ```
+
+Todo o pipeline de tradução (`tradutor-assembly-x64.ts` e `x64/`) vive neste pacote — ele não depende de `@designliquido/delegua` para gerar assembly, apenas para o lexador/analisador sintático (`Lexador`, `AvaliadorSintatico`) e para os tipos de AST (`construtos`, `declaracoes`).
 
 ## Comparação com `delegua-nativo`
 

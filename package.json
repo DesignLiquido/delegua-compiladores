@@ -26,5 +26,8 @@
       "@release-it-plugins/workspaces": true
     }
   },
-  "version": "0.2.2"
+  "version": "0.2.2",
+  "dependencies": {
+    "@designliquido/delegua": "^1.26.1"
+  }
 }
