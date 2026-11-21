@@ -84,29 +84,33 @@ yarn empacotar
 yarn testes-unitarios
 ```
 
-### Publicação no npm com release-it
+### Publicação no npm
 
 O repositório está configurado para usar `release-it` com o plugin `@release-it-plugins/workspaces`, publicando todos os pacotes em `pacotes/*` que não estejam com `"private": true`.
 
-1. Faça login no npm:
+#### Via script de automação (recomendado)
 
-```sh
-npm login
+Execute o script na raiz do repositório:
+
+```powershell
+.\subir-versao-delegua-compiladores.ps1
 ```
 
-2. Execute um teste sem publicar:
+O script:
+1. Detecta ou solicita o token npm para autenticação.
+2. Atualiza o repositório, instala dependências, empacota e roda os testes.
+3. Solicita o OTP do npm (exigido mesmo com token do tipo *Automation* desde o endurecimento de 2025).
+4. Executa `release-it --ci` passando o OTP via `NPM_CONFIG_OTP`.
+
+#### Prévia sem publicar
 
 ```sh
-yarn release:dry-run
+yarn publicar:previa
 ```
 
-3. Execute a release interativa:
+#### Em CI/CD
 
-```sh
-yarn publicar
-```
-
-Em CI/CD, use o modo não interativo:
+Defina `NPM_TOKEN` e `NPM_CONFIG_OTP` no ambiente e execute:
 
 ```sh
 yarn publicar:ci
@@ -115,8 +119,9 @@ yarn publicar:ci
 Notas:
 
 - Cada pacote precisa ter `name`, `version` e permissão para publicação no npm.
-- O script `prepublishOnly` de cada pacote deve preparar o artefato antes do `npm publish`.
+- O script `prepublishOnly` de cada pacote prepara o artefato antes do `npm publish`.
 - O pacote raiz do monorepo não é publicado (`"npm": false` na configuração do release-it).
+- O `.npmrc` na raiz referencia `${NPM_TOKEN}`; a variável deve estar definida para que o `yarn` consiga ler a configuração ao instalar dependências.
 
 ## Contribuindo
 

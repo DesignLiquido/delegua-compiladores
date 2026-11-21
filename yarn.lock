@@ -277,20 +277,30 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@designliquido/delegua-llvm@^9.2.0":
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/@designliquido/delegua-llvm/-/delegua-llvm-9.2.0.tgz#07768e12969be7a975a92c2a11e03a8e9e5e9f61"
-  integrity sha512-kAzHoEhosFWCt81VXJ7bmvRBTSUKuPBhwa0DCwvQso9l3NXueBJQqlfgZ1IjE4xhm+cOQimeO2HD0dhjk9zLiQ==
+"@designliquido/delegua-llvm@^9.3.1":
+  version "9.3.1"
+  resolved "https://registry.yarnpkg.com/@designliquido/delegua-llvm/-/delegua-llvm-9.3.1.tgz#597eae3b615a233a2e45c9d5d0eeb2ba331a15d5"
+  integrity sha512-9I4oiX3t2xZM0cHnlbLR4Wrc043C0zc30x28weFb/lZPm/+T9caUbLLHiHRCSt2pwLJwrFf+2CLTNYbKIn6HTw==
   dependencies:
-    "@designliquido/delegua" "^1.26.0"
+    "@designliquido/delegua" "^1.28.6"
     "@designliquido/delprops" "^0.1.0"
     "@designliquido/llvm-bindings" "^9.1.0"
     commander "^12.1.0"
 
-"@designliquido/delegua@*", "@designliquido/delegua@^1.26.0", "@designliquido/delegua@^1.27.0":
+"@designliquido/delegua@*", "@designliquido/delegua@^1.27.0":
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/@designliquido/delegua/-/delegua-1.27.0.tgz#b5b75a21a06237c069adf62c322c17578eace90a"
   integrity sha512-fMxs8s82mvBavQoTFtWia/iX0FjgFPK0VUtf2FgTAWIP2QlOD3bJHbRbmFo1LAx8f22/qDrEjgyNHQAOX0FotQ==
+  dependencies:
+    antlr4ts "^0.5.0-alpha.4"
+    browser-process-hrtime "^1.0.0"
+    esprima "^4.0.1"
+    lodash.clonedeep "^4.5.0"
+
+"@designliquido/delegua@^1.28.6":
+  version "1.28.6"
+  resolved "https://registry.yarnpkg.com/@designliquido/delegua/-/delegua-1.28.6.tgz#73e1af7cd9eb657c392b344b2ad88d4a1608dd90"
+  integrity sha512-hDhOdRZOI2MwKLS0f7Q3STUlyOF2loxx8q8VhsnZr8ZSrF7GxsFGXufHCC2AHQfKprhTItfEqi4+SleuHS3t+Q==
   dependencies:
     antlr4ts "^0.5.0-alpha.4"
     browser-process-hrtime "^1.0.0"
